@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://dbadmin:password@localhost:5432/handymandy?schema=public"
+}
+
+model customer {
+  customer_id    Int     @id @default(autoincrement())
+  name String?
+  address  String?
+  mobile String?
+  order orders?
+}
+
+model platform{
+    platform_id Int     @id @default(autoincrement())
+    name String?
+    order orders?
+}
+
+model product{
+    product_id    Int     @id @default(autoincrement())
+     name String?
+     price Int
+     eta Int
+     order orders?
+}
+
+model venture{
+    venture_id    Int     @id @default(autoincrement())
+    name String?
+    order orders?
+}
+
+model orders{
+    order_id    Int     @id @default(autoincrement())
+    venture venture? @relation(fields: [venture_id], references: [venture_id])
+    venture_id    Int  
+    status String?
+    payment_date DateTime
+    payment_status String?
+    due_date DateTime
+    customer customer? @relation(fields: [customer_id], references: [customer_id])
+    customer_id Int
+    platform platform? @relation(fields: [platform_id], references: [platform_id])
+    platform_id Int
+    product product? @relation(fields:[product_id], references: [product_id])
+    product_id Int
+    qty Int
+    delivery String?
+    notes String?
+}
