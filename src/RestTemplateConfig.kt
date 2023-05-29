@@ -49,6 +49,26 @@ class RestTemplateConfig(
 
         return restTemplate
     }
+    
+    @Bean
+    fun clientRegistrationRepository(): ClientRegistrationRepository {
+        val registrationId = "your_registration_id_here"
+        val clientId = "your_client_id_here"
+        val clientSecret = "your_client_secret_here"
+        val accessTokenUri = "your_access_token_uri_here"
+
+        val clientRegistration = ClientRegistration.withRegistrationId(registrationId)
+            .clientId(clientId)
+            .clientSecret(clientSecret)
+            .clientAuthenticationMethod(ClientAuthenticationMethod.BASIC)
+            .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+            .scope("your_scope_here")
+            .tokenUri(accessTokenUri)
+            .build()
+
+        return InMemoryClientRegistrationRepository(clientRegistration)
+    }
+    
 }
 
 
